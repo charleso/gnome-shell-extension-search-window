@@ -1,0 +1,23 @@
+== gnome-shell-extensions-window-search (0.0.1) ==
+
+This is a gnome shell extension to search through active windows. Search is done by application name and window title and integrates nicely into the search display.
+
+=== install ===
+
+extract into:
+
+ ~/.local/share/gnome-shell/extensions
+
+or use the gnome-tweak-tool to install and enable.
+
+=== license ===
+
+gnome-shell-extensions-window-search is released under GPLv2 or later.
+Copyright (C) 2011 - Marcus Dillavou <line72@line72.net>
+
+=== todo ===
+
+ - Have live window previews instead of just the application icon
+ - Order based on importance (current desktop, recently used)
+ - Translate into other languages
+ - Optimize the search
