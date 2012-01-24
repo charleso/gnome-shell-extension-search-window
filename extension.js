@@ -45,8 +45,7 @@ WindowSearchProvider.prototype = {
     },
 
     getResultMeta: function(resultId) {
-        let tracker = Shell.WindowTracker.get_default();
-        let apps = tracker.get_running_apps('');
+        let apps = this.getRunningApps();
 
         for (let i = 0; i < apps.length; i++) {
             let app = apps[i];
@@ -79,8 +78,7 @@ WindowSearchProvider.prototype = {
     },
 
     activateResult: function(id, params) {
-        let tracker = Shell.WindowTracker.get_default();
-        let apps = tracker.get_running_apps('');
+        let apps = this.getRunningApps();
 
         for (let i = 0; i < apps.length; i++) {
             let app = apps[i];
@@ -117,8 +115,7 @@ WindowSearchProvider.prototype = {
     getInitialResultSet: function(terms) {
         let results = [];
 
-        let tracker = Shell.WindowTracker.get_default();
-        let apps = tracker.get_running_apps('');
+        let apps = this.getRunningApps();
 
         terms = terms.map(String.toLowerCase);
 
@@ -162,12 +159,23 @@ WindowSearchProvider.prototype = {
     getSubsearchResultSet: function(previousResults, terms) {
         //!mwd - not too effecient here!
         return this.getInitialResultSet(terms);
+    },
+
+    getRunningApps: function() {
+        return Shell.AppSystem.get_default().get_running();
     }
 };
 
-// Put your extension initialization code here
-function main() {
-    Main.panel.actor.reactive = true;
-    //!mwd - it might be nice to put us at the top of the search list?
-    Main.overview.viewSelector.addSearchProvider(new WindowSearchProvider());
+let searchProvider;
+
+function init(extensionMeta) {
+    searchProvider = new WindowSearchProvider();
+}
+
+function enable() {
+    Main.overview._viewSelector.addSearchProvider(searchProvider);
+}
+
+function disable() {
+    Main.overview._viewSelector.removeSearchProvider(searchProvider);
 }
